@@ -41,18 +41,12 @@ for idx, midi_path in enumerate(playlist):
     
     audacity.stop() 
     print('Stop recording.')
-    process.kill()
-    print('Kill midi player process.')
 
     midi_file_name = os.path.basename(midi_abspath)
     project_file_path = os.path.join(config['projectFileOutPath'], midi_file_name + '.aup3')
     audacity.save_as_project(project_file_path)
     print('Save as project file before processing. => ' + project_file_path)
 
-    audacity.select_from_top(0, 10)
-    audacity.truncate_silence()
-    print('Remove silence at start.')
-    
     audacity.select_all()
     audacity.normalize()
     print('Normalize.')
