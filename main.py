@@ -45,27 +45,27 @@ for idx, midi_path in enumerate(playlist):
             break
         time.sleep(0.1)
     
-    time.sleep(config['marginRecSeconds'])
+    time.sleep(int(config['marginRecSeconds']))
 
     audacity.stop() 
     print('Stop recording.')
 
-    midi_file_name = os.path.basename(midi_abspath)
-    project_file_path = os.path.join(config['projectFileOutPath'], midi_file_name + '.aup3')
-    audacity.save_as_project(project_file_path)
-    print('Save as project file before processing. => ' + project_file_path)
-
     audacity.select_all()
     audacity.normalize()
     print('Normalize.')
+
+    midi_file_name = os.path.basename(midi_abspath)
 
     audacity.select_all()
     wave_file_path = os.path.join(config['waveFileOutPath'], midi_file_name + '.wav')
     audacity.export_as_wave(wave_file_path, 2)
     print('Export as wave file. => ' + wave_file_path)
 
-    audacity.select_all()
-    audacity.delete_track()
+    project_file_path = os.path.join(config['projectFileOutPath'], midi_file_name + '.aup3')
+    audacity.save_as_project(project_file_path)
+    print('Save as project file. => ' + project_file_path)
+
+    audacity.close()
 
     print('[end] ' + str(idx + 1) + '/' + str(file_count) + ' ' + midi_path)
     

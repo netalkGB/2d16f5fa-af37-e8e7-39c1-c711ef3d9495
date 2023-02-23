@@ -76,6 +76,9 @@ class AudacityControl:
     def save_as_project(self, file_name_str):
         self._do_command('SaveProject2:AddToHistory="0" Filename="' + file_name_str + '"')
 
+    def close(self):
+        self._do_command('Close:')
+
 if __name__ == "__main__":
     audacity_control = AudacityControl(Audacity())
     audacity_control.new_mono_track()
