@@ -4,7 +4,7 @@ import json
 import subprocess
 import time
 from audacity import Audacity, AudacityControl
-import pretty_midi
+import windows
 
 if len(sys.argv) < 2:
     print('Error: Playlist must be specified.', file=sys.stderr)
@@ -26,19 +26,27 @@ audacity = AudacityControl(Audacity(), config['verboseMode'])
 for idx, midi_path in enumerate(playlist):
     print('[start] ' + str(idx + 1) + '/' + str(file_count) + ' ' + midi_path)
     midi_abspath = os.path.abspath(midi_path)
-    midi_data = pretty_midi.PrettyMIDI(midi_path)
-
-    duration_seconds = midi_data.get_end_time()
-    margin_rec_seconds = int(config['marginRecSeconds']) # Add extra startup time for the player and cut silence to get by.
-    rec_time_seconds = duration_seconds + margin_rec_seconds
     
     audacity.start_record()
     print('Start recording.')
     process = subprocess.Popen(config['midiPlayerPath'] + ' ' + midi_abspath)
     print('Start midi player process.')
 
-    time.sleep(rec_time_seconds) # approximately
+    while True:
+        window_titles = windows.get_window_titles()
+        is_playing = len([title for title in window_titles if title.find(config['playingWindowTitle']) >= 0]) > 0
+        if is_playing == True:
+            break
+        time.sleep(0.1)    
+    while True:
+        window_titles = windows.get_window_titles()
+        is_playing = len([title for title in window_titles if title.find(config['playingWindowTitle']) >= 0]) > 0
+        if is_playing == False:
+            break
+        time.sleep(0.1)
     
+    time.sleep(config['marginRecSeconds'])
+
     audacity.stop() 
     print('Stop recording.')
 

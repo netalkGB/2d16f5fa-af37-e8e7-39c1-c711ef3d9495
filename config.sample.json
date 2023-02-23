@@ -3,5 +3,6 @@
     "projectFileOutPath": "C:\\Users\\test\\project",
     "verboseMode": false,
     "midiPlayerPath": "C:\\Program Files (x86)\\TMIDI Player\\TMIDI.EXE",
+    "playingWindowTitle": "TMIDI Player [PLAY]",
     "marginRecSeconds": "3"
 }
