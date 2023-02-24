@@ -25,11 +25,26 @@ audacity = AudacityControl(Audacity(), config['verboseMode'])
 
 for idx, midi_path in enumerate(playlist):
     print('[start] ' + str(idx + 1) + '/' + str(file_count) + ' ' + midi_path)
+
+    subprocess.Popen(config['midiPlayerPath'] + ' ' + os.path.abspath(config['resetMidiFilePath']))
+    print('Start midi player process.(reset)')
+    while True:
+        window_titles = windows.get_window_titles()
+        is_playing = len([title for title in window_titles if title.find(config['playingWindowTitle']) >= 0]) > 0
+        if is_playing == True:
+            break
+        time.sleep(0.1)    
+    while True:
+        window_titles = windows.get_window_titles()
+        is_playing = len([title for title in window_titles if title.find(config['playingWindowTitle']) >= 0]) > 0
+        if is_playing == False:
+            break
+        time.sleep(0.1)
+
     midi_abspath = os.path.abspath(midi_path)
-    
     audacity.start_record()
     print('Start recording.')
-    process = subprocess.Popen(config['midiPlayerPath'] + ' ' + midi_abspath)
+    subprocess.Popen(config['midiPlayerPath'] + ' ' + midi_abspath)
     print('Start midi player process.')
 
     while True:

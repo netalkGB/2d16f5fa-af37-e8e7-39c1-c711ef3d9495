@@ -1,6 +1,7 @@
 {
     "waveFileOutPath": "C:\\Users\\test\\wave",
     "projectFileOutPath": "C:\\Users\\test\\project",
+    "resetMidiFilePath": "C:\\Users\\test\\data\\reset.mid",
     "verboseMode": false,
     "midiPlayerPath": "C:\\Program Files (x86)\\TMIDI Player\\TMIDI.EXE",
     "playingWindowTitle": "TMIDI Player [PLAY]",
